@@ -1,0 +1,23 @@
+    <section class="hero-section">
+      {% if "user_id" in session %}
+      <span class="hero title1">Hi {{ username }}, Welcome Back</span>
+      <span class="hero title2">Find Your Dream Job Today</span>
+      {% else %}
+      <span class="hero title1">Find Your Dream Job Today</span>
+      <span class="hero title2">10000+ Opportunities From Top Companies</span>
+      {% endif %}
+      
+      
+   
+        <form  class="search-bar" method="Get" action="{{ url_for('emp.manage_job') }}">
+          <div class="search-bar-input">
+          <input name="q" value="{{ filters.q }}" type="text" class="search1" placeholder="Enter job title">
+          <input name="location" value="{{ filters.loaction }}" type="text" class="search2" placeholder="Location">
+           </div>
+          <button type="submit" class="search-button btn">
+            Search <i class="fa-solid fa-magnifying-glass" style="color: rgb(255, 255, 255);"></i>
+          </button>
+        </div>
+        </form>
+      
+    </section>

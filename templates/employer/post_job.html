@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  {% include "components/html_headers.html" %}
+  <title>Post Job</title>
+</head>
+<body>
+  {% include "components/topbar.html" %}
+  <main>
+    <section class="section">
+      
+      <form class="form-card-post-job" action="{{ url_for('emp.post_job') }}" method="POST" >
+        <h2>Post A Job</h2>
+        <input hidden name="employer_id" value="{{ profile.id }}">
+        <div class="form-group">
+          <label>Job Title</label>
+          <input type="text" name="Job_title" placeholder="Title" required>
+       </div>
+        <div class="form-group">
+          <label>Job Location</label>
+          <input type="text" name="Job_location" placeholder="Noida,India" required>
+       </div>
+        
+        <div class="form-group">
+          <label>Salary</label>
+          <div class="form-group-range">
+          <input type="number" name="min_salary" placeholder="20000" required>
+          <span>to</span>
+          <input type="number" name="max_salary" placeholder="45000" required>
+        </div>
+       </div>
+        
+        <!-- <div class="form-group">
+          <label>Skills</label>
+          <input type="text" name="skills" placeholder="Skills" value="Flask,Python,Backend,Git,Docker" required>
+       </div> -->
+       
+        <div class="form-group">
+          <label>Job Mode</label>
+          <select name="Job_mode">
+            <option value="Part_Time">Part Time</option>
+            <option value="Full_Time">Full Time</option>
+            <option value="Remote">Remote</option>
+            <option value="Internship">Internship</option>
+          </select>
+       </div>
+        
+        <div class="form-group">
+          <label>Vacacies</label>
+          <input type="number" name="vacancies" placeholder="Vacancies" value="50" required>
+       </div>
+        
+        <div class="form-group">
+          <label>Deadline</label>
+          <input class="deadline" type="date" name="deadline" placeholder="Deadline" required>
+       </div>
+        
+        <div class="form-group">
+          <label>Description</label><br>
+          <textarea rows="12" name="description" placeholder="Describe about the job" required></textarea>
+       </div>
+        <button type="submit" class="btn btn-primary">Post Job</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

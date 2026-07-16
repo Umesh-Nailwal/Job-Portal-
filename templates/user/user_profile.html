@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  {% include "components/html_headers.html" %}
+    <title>Your Profile</title>
+</head>
+<body>
+  {% include "components/topbar.html" %}
+<section class="section">
+    <div class="profile-card">
+    <h1 class="name">{{ profile.full_name }}</h1>
+    <p> <i class="fa-solid fa-location-dot fa-fw" style="color: rgb(224, 228, 233);"></i> 
+      {{ profile.location }}</p>
+      <div class="profile-links">
+    <a class="links" target="_blank" href="{{ profile.linkedin }}">
+       <i class="fa-brands fa-square-linkedin" style="color: rgb(116, 192, 252);"></i>
+    </a>
+    <a class="links" target="_blank" href="{{ profile.github }}">
+        <i class="fa-brands fa-github" style="color: rgb(0, 0, 0);"></i>
+    </a>
+      </div>
+</section>
+</div>
+
+    <section class="section">
+<h2>Bio</h2>
+<p class="profile-description"> {{ profile.bio }}
+</p>
+   <a href="{{ url_for('user.edit_user_profile') }}" class="links">Edit Profile</a>
+    </section>
+</body>
+</html>

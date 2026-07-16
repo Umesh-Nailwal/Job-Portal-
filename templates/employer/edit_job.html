@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  {% include "components/html_headers.html" %}
+  <title>Edit Job</title>
+</head>
+<body>
+  {% include "components/topbar.html" %}
+  <main>
+    <section class="section">
+      
+      <form class="form-card-post-job" action="{{ url_for('emp.edit_job', job_id=job_details.id) }}" method="POST" >
+        <h2>Edit A Job</h2>
+        <div class="form-group">
+          <label>Job Title</label>
+          <input value="{{ job_details.title }}" type="text" name="Job_title" placeholder="Title" required>
+       </div>
+        <div class="form-group">
+          <label>Job Location</label>
+          <input value="{{ job_details.location }}" type="text" name="Job_location" placeholder="Noida,India">
+       </div>
+        
+        <div class="form-group">
+          <label>Salary</label>
+          <div class="form-group-range">
+          <input value="{{ job_details.salary_min }}" type="number" name="min_salary" placeholder="20000">
+          <span>to</span>
+          <input value="{{ job_details.salary_max }}" type="number" name="max_salary" placeholder="45000">
+        </div>
+       </div>
+     
+       
+        <div class="form-group">
+          <label>Job Mode</label>
+          <select name="Job_mode" >
+            <option {% if job_details.employment_type == "Part_Time" %} selected {% endif %} value="Part_Time">Part Time</option>
+            <option value="Full_Time">Full Time</option>
+            <option value="Remote">Remote</option>
+            <option value="Internship">Internship</option>
+          </select>
+       </div>
+        
+        <div class="form-group">
+          <label>Vacacies</label>
+          <input value="{{ job_details.vacancies }}" type="number" name="vacancies" placeholder="Vacancies">
+       </div>
+        
+        <div class="form-group">
+          <label>Deadline</label>
+          <input value="{{ job_details.deadline }}" class="deadline" type="date" name="deadline" placeholder="Deadline">
+       </div>
+        
+        <div class="form-group">
+          <label>Description</label><br>
+          <textarea rows="12" name="description" placeholder="Describe about the job">{{ job_details.description }}</textarea>
+       </div>
+        <button type="submit" class="btn btn-primary">Post Job</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

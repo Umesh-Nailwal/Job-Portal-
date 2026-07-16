@@ -1,0 +1,8 @@
+<section class="featured-job">
+      <p class="featured-heading">Featuted Jobs</p>
+      <div class="job-list">
+            {% for job in jobs %}
+            {% include "job/job_card.html" %}
+            {% endfor %} 
+      </div>
+    </section>

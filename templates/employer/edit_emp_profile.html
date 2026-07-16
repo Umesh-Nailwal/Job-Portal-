@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  {% include "components/html_headers.html" %}
+    <title>Create Company Profile</title>
+</head>
+<body>
+    {% include "components/topbar.html" %}
+  <main>
+    <section class="section">
+<h1>Edit Company Profile</h1>
+<p>Complete your company profile before posting jobs.</p>
+        <div class="">
+<form action="{{ url_for('emp.edit_emp_profile') }}" class="form-card-post-job" method="POST" enctype="multipart/form-data">
+
+    <label>Company Name</label><br>
+    <input type="text" value="{{ profile.company_name }}"  name="company_name" placeholder="Company Name" readonly><br><br>
+
+    <label>Website</label><br>
+    <input type="url" value="{{ profile.website }}" name="website" placeholder="https://company.com"><br><br>
+
+    <label>Industry</label><br>
+    <input type="text" value="{{ profile.industry }}" name="industry" placeholder="Software Development"><br><br>
+
+    <label>Location</label><br>
+    <input type="text" value="{{ profile.location }}" name="location" placeholder="Bengaluru, India"><br><br>
+
+    <label>Company Description</label><br>
+    <textarea
+        name="description"
+        rows="6"
+        placeholder="Describe your company..."
+        maxlength="1000">{{ profile.description }}</textarea><br><br>
+
+    <button type="submit" class="btn btn-primary">
+        Edit Profile
+    </button>
+
+</form>
+        </div>
+</section>
+</main>
+</body>
+</html>

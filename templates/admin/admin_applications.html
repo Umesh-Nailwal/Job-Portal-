@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/1b8a3d6871.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin_styles.css') }}">
+  <title>Applications</title>
+</head>
+<body>
+  {% include "admin/_sidebar.html" %}
+  <main class="main-content">
+    {% with heading="Applications" %}{% include "admin/_header.html" %}{% endwith %}
+
+    <section class="page-section">
+      <div class="page-section-header">
+        <h2>All Applications ({{ applications|length }})</h2>
+        <form class="filter-bar" action="{{ url_for('admin.manage_applications') }}" method="GET">
+          <input type="text" name="q" value="{{ filters.q }}" placeholder="Search by job title">
+          <select name="status">
+            <option value="" {% if not filters.status %}selected{% endif %}>All statuses</option>
+            <option value="Applied" {% if filters.status=="Applied" %}selected{% endif %}>Applied</option>
+            <option value="Under Review" {% if filters.status=="Under Review" %}selected{% endif %}>Under Review</option>
+            <option value="Shortlisted" {% if filters.status=="Shortlisted" %}selected{% endif %}>Shortlisted</option>
+            <option value="Rejected" {% if filters.status=="Rejected" %}selected{% endif %}>Rejected</option>
+          </select>
+          <button type="submit" class="btn btn-primary-admin">Search</button>
+        </form>
+      </div>
+
+      <div class="table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Applicant</th>
+              <th>Job</th>
+              <th>Company</th>
+              <th>Status</th>
+              <th>Applied On</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in applications %}
+            <tr>
+              <td>{{ a.user.email if a.user else "-" }}</td>
+              <td>{{ a.job.title if a.job else "-" }}</td>
+              <td>{{ a.job.company if a.job else "-" }}</td>
+              <td>
+                {% if a.status=="Shortlisted" %}<span class="badge badge-blue">{{ a.status }}</span>
+                {% elif a.status=="Rejected" %}<span class="badge badge-red">{{ a.status }}</span>
+                {% elif a.status=="Under Review" %}<span class="badge badge-yellow">{{ a.status }}</span>
+                {% else %}<span class="badge badge-grey">{{ a.status }}</span>{% endif %}
+              </td>
+              <td>{{ a.applied_at | format_date("%d %b %Y") }}</td>
+            </tr>
+            {% else %}
+            <tr class="empty-row"><td colspan="5">No applications found</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

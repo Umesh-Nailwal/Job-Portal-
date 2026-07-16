@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  {% include "components/html_headers.html" %}
+    <title>Employer Profile</title>
+</head>
+<body>
+  {% include "components/topbar.html" %}
+<section class="section">
+    <div class="profile-card">
+    <h1 class="company_name">{{ profile.company_name }}</h1>
+    <p class="company_industry">{{ profile.industry }}</p>
+    <p>{{ profile.location }}</p>
+    <a class="links" href="{{ profile.webiste }}">
+        {{ profile.website }}
+    </a>
+    </div>
+</section>
+
+    <section class="section">
+<h2>About Company</h2>
+
+<p class="profile-description"> {{ profile.description }}
+</p>
+   <a href="{{ url_for('emp.edit_emp_profile') }}" class="links">
+    Edit Profile
+</a>
+    </section>
+</body>
+</html>

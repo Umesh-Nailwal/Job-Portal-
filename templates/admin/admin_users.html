@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/1b8a3d6871.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin_styles.css') }}">
+  <title>Manage Users</title>
+</head>
+<body>
+  {% include "admin/_sidebar.html" %}
+  <main class="main-content">
+    {% with heading="Users" %}{% include "admin/_header.html" %}{% endwith %}
+
+    <section class="page-section">
+      <div class="page-section-header">
+        <h2>All Users ({{ users|length }})</h2>
+        <form class="filter-bar" action="{{ url_for('admin.manage_users') }}" method="GET">
+          <input type="text" name="q" value="{{ filters.q }}" placeholder="Search by email">
+          <select name="role">
+            <option value="" {% if not filters.role %}selected{% endif %}>All roles</option>
+            <option value="Job_Seeker" {% if filters.role=="Job_Seeker" %}selected{% endif %}>Job Seeker</option>
+            <option value="Employer" {% if filters.role=="Employer" %}selected{% endif %}>Employer</option>
+            <option value="admin" {% if filters.role=="admin" %}selected{% endif %}>Admin</option>
+          </select>
+          <button type="submit" class="btn btn-primary-admin">Search</button>
+        </form>
+      </div>
+
+      <div class="table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in users %}
+            <tr>
+              <td>{{ u.id }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role }}</td>
+              <td>
+                {% if u.is_active %}<span class="badge badge-green">Active</span>
+                {% else %}<span class="badge badge-red">Inactive</span>{% endif %}
+              </td>
+              <td>{{ u.created_at | format_date("%d %b %Y") }}</td>
+              <td class="row-actions">
+                {% if u.role != "admin" %}
+                <form action="{{ url_for('admin.toggle_user_active', user_id=u.id) }}" method="POST">
+                  {% if u.is_active %}
+                  <button type="submit" class="btn btn-sm btn-danger">Deactivate</button>
+                  {% else %}
+                  <button type="submit" class="btn btn-sm btn-success">Activate</button>
+                  {% endif %}
+                </form>
+                <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" onsubmit="return confirm('Delete this user? This also removes their profile, jobs, applications and bookmarks.');">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+                {% else %}
+                <span class="badge badge-grey">Protected</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% else %}
+            <tr class="empty-row"><td colspan="6">No users found</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

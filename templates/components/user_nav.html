@@ -1,0 +1,18 @@
+<div class="nav-links">
+        <a class="links" href="{{ url_for('home') }}">Home</a>
+        <a class="links" href="{{ url_for('job.jobs') }}">Jobs</a>
+        
+        <a class="links" href="{{ url_for('user.bookmark') }}">Bookmark</a>
+        <a class="links" href="{{ url_for('user.applications') }}">Applications</a>
+</div>
+      <div class="top-buttons">
+         <a class="links" href="{{ url_for('user.user_profile') }}">
+            <i class="fa-solid fa-user"></i>
+                 
+         </a>
+        <form action="{{ url_for('auth.logout') }}" method="POST">
+          <button type="submit" class="btn btn-secondary">Logout</button>
+        </form>
+      </div>
+     
+      

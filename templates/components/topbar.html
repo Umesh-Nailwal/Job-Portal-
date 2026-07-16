@@ -1,0 +1,31 @@
+<header class="topbar">
+    <div class="top-heading">
+      <span class="txt1">Job</span><span class="txt2"> Portal</span>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      ☰
+    </div>
+    <div class="top-links" id="menu">
+      {% if session.get('role') =="Job_Seeker" %}
+      {% include "components/user_nav.html" %}
+      {% elif session.get ('role') =="Employer" %}
+      {% include "components/emp_nav.html" %}
+      {% else %}
+      {% include "components/gst_nav.html" %}
+      {% endif %}
+    </div>
+  </header>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="flash-messages">
+    {% for message in messages %}
+    <div class="flash-message">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+  <script>
+function toggleMenu(){
+    document.getElementById("menu").classList.toggle("show");
+}
+</script>

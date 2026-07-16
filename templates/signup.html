@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  {% include "components/html_headers.html" %}
+  <title>Signin</title>
+</head>
+<body>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="flash-messages">
+    {% for message in messages %}
+    <div class="flash-message">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+  
+  <div class="form-section">
+  <form action="{{ url_for('auth.signup') }}" method="POST" class="form-card">
+    <h2>Signup form</h2>
+    
+     <input class="form-input" type="email" name="email" placeholder="Email" required>
+    <input class="form-input" type="password" name="password" placeholder="Password" required>
+    <div class="role-option">
+      <label>Enter Role </label>
+    <select class="form-select" name="role" required>
+      <option value="Job_Seeker">Job_Seeker</option>
+      <option value="Employer">Employer</option>
+    </select>
+    </div>
+    <p>Already have a account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+    <button type="submit" class="btn btn-primary">Signup</button>
+  </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+      <div class="job-card">
+        <div class="badge-group">
+          {% if not job.is_filled and job.is_active %}
+          <span class="badge badge-green">Actively Hiring</span>
+          {% else %}
+          <span class="badge badge-red">Stoped Hiring</span>
+          {% endif %}
+          {% if job.is_archived %}
+          <span class="badge badge-grey">Archived</span>
+          {% else %}
+          <span class="badge badge-grey">Unarchived</span>
+          {% endif %}
+          {% if job.is_approved %}
+          <span class="badge badge-green">Approved</span>
+          {% else %}
+          <span class="badge badge-red">Dismissed</span>
+          {% endif %}
+        <span  class="menu-btn"><i class="fa-solid fa-ellipsis-vertical"></i></span>
+        </div>
+        <span class="job-deadline">{{ job.age }}</span>
+        <span class="job-title">{{ job.title }}</span>
+        <span class="job-company">{{ job.company }}</span>
+        <span class="job-location"><i class="fa-solid fa-location-dot fa-fw" style="color: rgb(224, 228, 233);"></i> {{ job.location }}</span>
+        <span class="job-mode"> <i class="fa-solid fa-briefcase fa-fw" style="color: rgb(224, 228, 233);"></i> {{ job.employment_type }}</span>
+      
+        <div class="job-buttons">
+          <a href="{{ url_for('emp.edit_job', job_id=job.id) }}" class="btn edit">Edit</a>
+          <a class="btn details" href="{{ url_for('job.job_details',job_id=job.id) }}">View Details</a>   
+        </div>
+        
+        <div class="job-menu">
+          <a href="{{ url_for('emp.edit_job', job_id=job.id) }}" class="menu links">Edit</a>
+          
+          <form action="{{ url_for('emp.employer_delete_job', job_id=job.id) }}" method="POST">
+            <button type="submit" class="menu links">Delete</button>
+          </form>
+          {% if job.is_archived %}
+          <form action="{{ url_for('emp.toggle_archive', job_id=job.id) }}" method="POST">
+            <button  type="submit" class="menu links">Unarchive</button>
+          </form>
+          {% else %}
+          <form action="{{ url_for('emp.toggle_archive',job_id=job.id) }}" method="POST">
+            <button  type="submit" class="menu links">Archive</button>
+          </form>
+          {% endif %}
+          {% if job.is_filled %}
+          <form action="{{ url_for('emp.toggle_hiring',job_id=job.id) }}" method="POST">
+            <button  type="submit" class="menu links">Active hiring</button>
+          </form>
+          {% else %}
+          <form action="{{ url_for('emp.toggle_hiring', job_id=job.id) }}" method="POST">
+            <button  type="submit" class="menu links">Stop hiring</button>
+          </form>
+          {% endif %}
+           </div>
+        
+      </div>

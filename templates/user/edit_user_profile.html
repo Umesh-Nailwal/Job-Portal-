@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  {% include "components/html_headers.html" %}
+    <title>Create Company Profile</title>
+</head>
+<body>
+    {% include "components/topbar.html" %}
+  <main>
+    <section class="section">
+<h1>Edit Your Profile</h1>
+<p>Complete your profile before appling for jobs.</p>
+        <div class="">
+<form action="" class="form-card-post-job" method="POST" enctype="multipart/form-data">
+
+    <label>Full Name</label><br>
+    <input type="text" value="{{ profile.full_name }}"  name="full_name" placeholder="Full Name" readonly><br><br>
+
+   <label>Linked In</label><br>
+    <input value="{{ profile.linkedin }}" type="url" name="linkedin" placeholder="https://linkedin.com"><br><br>
+
+    <lable>Git Hub</lable>
+    <input value="{{ profile.github }}" type="url" name="github" placeholder="https://github.com"><br><br>
+  
+    <label>Location</label><br>
+    <input value="{{ profile.location }}" type="text" name="location" placeholder="Bengaluru, India" required><br><br>
+
+    <label>Bio</label><br>
+    <textarea
+        name="bio"
+        rows="6"
+        placeholder="Describe your profession , skills, hobies etv..."
+        maxlength="1000">{{ profile.bio }}</textarea><br><br>
+
+    <button type="submit" class="btn btn-primary">Edit Profile</button>
+
+</form>
+        </div>
+</section>
+</main>
+</body>
+</html>

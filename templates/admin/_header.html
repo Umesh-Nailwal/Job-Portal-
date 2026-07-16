@@ -1,0 +1,21 @@
+<header class="topbar">
+  <span class="heading">{{ heading }}</span>
+  <div class="top-buttons">
+    <div class="profile">
+      <i class="fa-solid fa-user-tie" style="color: rgb(224, 228, 233);"></i>
+      Admin
+    </div>
+    <form action="{{ url_for('auth.logout') }}" method="POST">
+      <button type="submit" class="btn">Logout</button>
+    </form>
+  </div>
+</header>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="flash-messages">
+    {% for message in messages %}
+    <div class="flash-message">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  {% include "components/html_headers.html" %}
+  <title>Job Details</title>
+</head>
+<body>
+  {% include "components/topbar.html" %}
+  <main >
+    <section class="job-card">
+      <div class="job-head">
+        <span class="job-deadline">{{ job.age }}</span>
+        <a class="links bookmart" href="#">
+          <i class="fa-regular fa-bookmark" style="color:lightgrey"></i>
+        </a>
+      </div>
+        <span class="job-title">{{ job.title }}</span>
+        <span class="job-company">{{ job.company }}</span>
+        <span class="job-location"><i class="fa-solid fa-location-dot fa-fw" style="color: rgb(224, 228, 233);"></i> {{ job.location }}</span>
+      <div class="job-group">
+        <span class="job-mode"> <i class="fa-solid fa-briefcase fa-fw" style="color: rgb(224, 228, 233);"></i> {{ job.employment_type }}</span>
+        <span class="job-position">{{ job.vacancies }} Posts</span>
+        <span class="job-salary"> {{ job.salary_min }}-{{ job.salary_max }}</span>
+      </div>
+        
+      
+        <div class="job-buttons">
+          {% if job.id in applied_job_ids %}
+          <button class="btn apply" disabled>Applied</button>
+          
+          {% elif session.get("role")=="Employer" %}
+          <button class="btn apply">Cannot Apply</button>
+          
+          {% else %}
+          <form class="" action="{{ url_for('job.apply_job') }}" method="POST">
+            <input name="job_id"  value="{{ job.id }}" hidden>
+            <button type="submit" class="btn apply">Apply For Job</button>
+          </form>  
+          {% endif %}
+        </div>
+    </section>
+    <section class="section">
+    <h2>Job description </h2>
+    <p class="job-description-all">{{ job.description }}</p>
+    </section>
+  </main>
+</body>
+</html>

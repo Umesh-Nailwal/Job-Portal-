@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  {% include "components/html_headers.html" %}
+  <title>Applications</title>
+</head>
+<body>
+  {% include "components/topbar.html" %}
+  <main class="section">
+    <h2>Applications</h2>
+    <p>Review candidates and move them through your hiring pipeline</p>
+  </main>
+
+  <section class="job-sections">
+    <aside class="filters">
+      <h2>Filters</h2>
+      <form action="{{ url_for('emp.applicants') }}" method="GET">
+        <div class="filter-form-group">
+          <label>Job Title</label>
+          <input class="search2" type="text" name="q" value="{{ filters.q }}" placeholder="e.g. Frontend Developer">
+        </div>
+        <div class="filter-form-group">
+          <label>Job Posting</label>
+          <select name="job_id">
+            <option value="" {% if not filters.job_id %}selected{% endif %}>All jobs</option>
+            {% for j in jobs %}
+            <option value="{{ j.id }}" {% if filters.job_id==j.id|string %}selected{% endif %}>{{ j.title }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="filter-form-group">
+          <label>Status</label>
+          <select name="status">
+            <option value="" {% if not filters.status %}selected{% endif %}>All statuses</option>
+            {% for s in statuses %}
+            <option value="{{ s }}" {% if filters.status==s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Filter</button>
+      </form>
+    </aside>
+
+    <div class="job-list">
+      {% for a in applications %}
+      <div class="job-card applicant-card">
+        <div class="badge-group">
+          {% if a.status=="Shortlisted" %}<span class="badge badge-blue">{{ a.status }}</span>
+          {% elif a.status=="Rejected" %}<span class="badge badge-red">{{ a.status }}</span>
+          {% elif a.status=="Under Review" %}<span class="badge badge-yellow">{{ a.status }}</span>
+          {% else %}<span class="badge badge-grey">{{ a.status }}</span>{% endif %}
+        </div>
+
+        <span class="job-title">{{ a.user.jobseeker_profile.full_name if a.user and a.user.jobseeker_profile else (a.user.email if a.user else "Unknown applicant") }}</span>
+        <span class="job-company">Applied for: {{ a.job.title if a.job else "-" }}</span>
+
+        {% if a.user %}
+        <span class="job-location"><i class="fa-solid fa-envelope fa-fw" style="color: rgb(224, 228, 233);"></i> {{ a.user.email }}</span>
+        {% endif %}
+        {% if a.user and a.user.jobseeker_profile and a.user.jobseeker_profile.location %}
+        <span class="job-location"><i class="fa-solid fa-location-dot fa-fw" style="color: rgb(224, 228, 233);"></i> {{ a.user.jobseeker_profile.location }}</span>
+        {% endif %}
+        <span class="job-mode"><i class="fa-regular fa-clock fa-fw" style="color: rgb(224, 228, 233);"></i> Applied {{ a.applied_at | format_date("%d %b %Y") }}</span>
+
+        {% if a.user and a.user.jobseeker_profile %}
+        <div class="applicant-links">
+          {% if a.user.jobseeker_profile.linkedin %}
+          <a class="links" href="{{ a.user.jobseeker_profile.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+          {% endif %}
+          {% if a.user.jobseeker_profile.github %}
+          <a class="links" href="{{ a.user.jobseeker_profile.github }}" target="_blank" rel="noopener">GitHub</a>
+          {% endif %}
+        </div>
+        {% endif %}
+
+
+        <form class="status-form" action="{{ url_for('emp.update_application_status', app_id=a.id) }}" method="POST">
+          <input type="hidden" name="q" value="{{ filters.q }}">
+          <input type="hidden" name="status_filter" value="{{ filters.status }}">
+          <input type="hidden" name="job_id_filter" value="{{ filters.job_id }}">
+          <select name="status">
+            {% for s in statuses %}
+            <option value="{{ s }}" {% if a.status==s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary">Update Status</button>
+        </form>
+      </div>
+      {% else %}
+      <p>No applications found</p>
+      {% endfor %}
+    </div>
+  </section>
+</body>
+</html>

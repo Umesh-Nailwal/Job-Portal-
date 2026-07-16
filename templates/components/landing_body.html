@@ -1,0 +1,143 @@
+<main>
+  {% include "components/welcome_section.html" %}
+    <!-- statistic sections  -->
+    <section class="app-analysis">
+      <div class="card">
+        <span>25+</span>
+        <span>Companies</span>
+      </div>
+      
+      <div class="card">
+        <span>150+</span>
+        <span>Jobs</span>
+      </div>
+      
+      <div class="card">
+        <span>600+</span>
+        <span>Canditates</span>
+        </div>
+      <div class="card">
+        <span>80+</span>
+        <span>Applications</span>
+      </div>
+    </section>
+    
+  {% include "components/featured_job.html" %}
+    
+    <!-- Recent Jobs -->
+<section class="recent-jobs">
+    <h2 class="section-title">Recent Jobs</h2>
+    <p class="section-subtitle">Newest jobs added.</p>
+
+    <div class="recent-list">
+
+        <div class="recent-card">
+            <h3>Python Intern</h3>
+            <span>Posted Today</span>
+        </div>
+
+        <div class="recent-card">
+            <h3>AI Engineer</h3>
+            <span>Posted Yesterday</span>
+        </div>
+
+        <div class="recent-card">
+            <h3>Backend Developer</h3>
+            <span>Posted 2 days ago</span>
+        </div>
+
+        <div class="recent-card">
+            <h3>Data Analyst</h3>
+            <span>Posted 3 days ago</span>
+        </div>
+
+    </div>
+
+    <p class="recent-note">
+        When the admin adds a new job, it automatically appears here.
+    </p>
+</section>
+
+<!-- Top Companies -->
+<section class="companies">
+    <h2 class="section-title">Top Companies</h2>
+
+    <div class="company-grid">
+
+        <div class="company-card">
+            <h3>TechNova Solutions</h3>
+            <p>Software Company</p>
+            <span>20 Open Jobs</span>
+        </div>
+
+        <div class="company-card">
+            <h3>AI Vision Labs</h3>
+            <p>Artificial Intelligence</p>
+            <span>12 Open Jobs</span>
+        </div>
+
+        <div class="company-card">
+            <h3>ByteWorks</h3>
+            <p>Cloud Computing</p>
+            <span>18 Open Jobs</span>
+        </div>
+
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="features">
+    <h2 class="section-title">Why Choose Us?</h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">✓ Easy Applications</div>
+        <div class="feature-card">✓ Verified Companies</div>
+        <div class="feature-card">✓ Secure Platform</div>
+        <div class="feature-card">✓ Remote Jobs</div>
+        <div class="feature-card">✓ Internship Opportunities</div>
+        <div class="feature-card">✓ Career Growth</div>
+
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+
+    <h2 class="section-title">Testimonials</h2>
+
+    <div class="testimonial-grid">
+
+        <div class="testimonial-card">
+            <h3>★★★★★</h3>
+            <p>"This platform helped me get my first internship."</p>
+            <span>— Rahul Sharma</span>
+        </div>
+
+        <div class="testimonial-card">
+            <h3>★★★★★</h3>
+            <p>"Very clean and easy to use."</p>
+            <span>— Priya Singh</span>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Call To Action -->
+<section class="cta">
+
+    <h2>Ready to Start Your Career?</h2>
+
+    <div class="cta-buttons">
+        <a href="#" class="btn btn-primary">Browse Jobs</a>
+      {% if "user_id" not in session %}
+        <a href="{{ url_for('auth.signup') }}" class="btn btn-secondary">Create Account</a>
+      {% endif %}
+    </div>
+
+</section>
+
+</main>
+ <!-- Footer -->
+{% include "components/footer.html" %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  {% include "components/html_headers.html" %}
+  <title>Applications</title>
+</head>
+<body>
+  {% include "components/topbar.html" %}
+  {% include "components/welcome_section.html" %}
+  <main class="section">
+    <h2>Application</h2>
+    <p>Applied jobs saved here</p>
+    <section class="job-list">
+      
+    </section>
+  </main>
+  <main class="job-sections">
+  <aside class="filters">
+    <h2 >Filters</h2>
+    <form action="{{ url_for('user.applications') }}" method="GET">
+      <input type="hidden" name="q" value="{{ filters.q }}">
+      <div class="filter-form-group">
+      <label>Job Location</label>
+      <input class="search2" type="text" name="location" value="{{ filters.location }}" placeholder="e.g. Noida">
+      </div>
+      <div class="filter-form-group">
+      <label>Job Mode</label>
+      <select name="job_mode">
+        <option value="" {% if not filters.job_mode %}selected{% endif %}>Any</option>
+        <option value="Full_Time" {% if filters.job_mode=="Full_Time" %}selected{% endif %}>Full Time</option>
+        <option value="Part_Time" {% if filters.job_mode=="Part_Time" %}selected{% endif %}>Part Time</option>
+        <option value="Remote" {% if filters.job_mode=="Remote" %}selected{% endif %}>Remote</option>
+        <option value="Internship" {% if filters.job_mode=="Internship" %}selected{% endif %}>Internship</option>
+      </select>
+      </div>
+      <div class="filter-form-group">
+        <label>Minimum Salary</label>
+        <select name="min_salary">
+          <option value="" {% if not filters.min_salary %}selected{% endif %}>Any</option>
+          <option value="20000" {% if filters.min_salary=="20000" %}selected{% endif %}>20k+</option>
+          <option value="30000" {% if filters.min_salary=="30000" %}selected{% endif %}>30k+</option>
+          <option value="40000" {% if filters.min_salary=="40000" %}selected{% endif %}>40k+</option>
+          <option value="50000" {% if filters.min_salary=="50000" %}selected{% endif %}>50k+</option>
+          <option value="80000" {% if filters.min_salary=="80000" %}selected{% endif %}>80k+</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Apply Filter</button>
+    </form>
+  </aside>
+    <section class="job-list" >
+      {% for app in applications %}
+      {% with job=app.job %}
+      {% include "job/job_card.html" with context %}
+     
+      
+      {% if not job%}
+      <p>No jobs found try removing some filters</p>    
+      {% endif %}
+       {% endwith %}
+      {% endfor%}
+    </section>
+  </main>
+</body>
+</html>

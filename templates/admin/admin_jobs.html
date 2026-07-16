@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/1b8a3d6871.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin_styles.css') }}">
+  <title>Manage Jobs</title>
+</head>
+<body>
+  {% include "admin/_sidebar.html" %}
+  <main class="main-content">
+    {% with heading="Jobs" %}{% include "admin/_header.html" %}{% endwith %}
+
+    <section class="page-section">
+      <div class="page-section-header">
+        <h2>All Jobs ({{ jobs|length }}){% if filters.company %} — {{ filters.company }}{% endif %}</h2>
+        <form class="filter-bar" action="{{ url_for('admin.manage_jobs') }}" method="GET">
+          <input type="text" name="q" value="{{ filters.q }}" placeholder="Search by title">
+          <select name="status">
+            <option value="" {% if not filters.status %}selected{% endif %}>All statuses</option>
+            <option value="active" {% if filters.status=="active" %}selected{% endif %}>Active</option>
+            <option value="inactive" {% if filters.status=="inactive" %}selected{% endif %}>Expired</option>
+          </select>
+          <button type="submit" class="btn btn-primary-admin">Search</button>
+        </form>
+      </div>
+
+      <div class="table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Company</th>
+              <th>Location</th>
+              <th>Type</th>
+              <th>Deadline</th>
+              <th>Status</th>
+              <th>Approval</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for j in jobs %}
+            <tr>
+              <td>{{ j.title }}</td>
+              <td>{{ j.company }}</td>
+              <td>{{ j.location }}</td>
+              <td>{{ j.employment_type }}</td>
+              <td>{{ j.deadline | format_date("%d %b %Y") }}</td>
+              <td>
+                {% if j.is_active %}<span class="badge badge-green">Active</span>
+                {% else %}<span class="badge badge-red">Expired</span>{% endif %}
+              </td>
+              <td>
+                {% if j.is_approved %}<span class="badge badge-green">Approved</span>
+                {% else %}<span class="badge badge-red">Dismissed</span>{% endif %}
+              </td>
+              <td class="row-actions">
+                <form action="{{ url_for('admin.toggle_job_approved', job_id=j.id) }}" method="POST">
+                  {% if j.is_approved %}
+                  <button type="submit" class="btn btn-sm btn-danger">Dismiss</button>
+                  {% else %}
+                  <button type="submit" class="btn btn-sm btn-success">Approved</button>
+                  {% endif %}
+                </form>
+                <form action="{{ url_for('admin.delete_job', job_id=j.id) }}" method="POST" onsubmit="return confirm('Delete this job? This also removes its applications and bookmarks.');">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% else %}
+            <tr class="empty-row"><td colspan="7">No jobs found</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

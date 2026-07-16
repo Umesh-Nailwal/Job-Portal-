@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/1b8a3d6871.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin_styles.css') }}">
+  <title>Manage Employers</title>
+</head>
+<body>
+  {% include "admin/_sidebar.html" %}
+  <main class="main-content">
+    {% with heading="Employers" %}{% include "admin/_header.html" %}{% endwith %}
+
+    <section class="page-section">
+      <div class="page-section-header">
+        <h2>All Employers ({{ employers|length }})</h2>
+        <form class="filter-bar" action="{{ url_for('admin.manage_employers') }}" method="GET">
+          <input type="text" name="q" value="{{ filters.q }}" placeholder="Search by company name">
+          <button type="submit" class="btn btn-primary-admin">Search</button>
+        </form>
+      </div>
+
+      <div class="table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Industry</th>
+              <th>Location</th>
+              <th>Website</th>
+              <th>Jobs Posted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for e in employers %}
+            <tr>
+              <td>{{ e.company_name }}</td>
+              <td>{{ e.industry or "-" }}</td>
+              <td>{{ e.location or "-" }}</td>
+              <td>
+                {% if e.website %}<a class="links" style="padding:0;" href="{{ e.website }}" target="_blank">Visit</a>{% else %}-{% endif %}
+              </td>
+              <td>{{ e.job|length }}</td>
+              <td class="row-actions">
+                <a class="btn btn-sm btn-primary-admin" href="{{ url_for('admin.manage_jobs', company=e.company_name) }}">View Jobs</a>
+              </td>
+            </tr>
+            {% else %}
+            <tr class="empty-row"><td colspan="6">No employers found</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

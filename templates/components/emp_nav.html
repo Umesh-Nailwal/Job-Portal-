@@ -1,0 +1,18 @@
+<div class="nav-links">
+        <a class="links {% if request.endpoint=='home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a>  
+        <a class="links {% if request.endpoint=='emp.post_job' %}active{% endif %}" href="{{ url_for('emp.post_job') }}">Post Job</a>
+        <a class="links {% if request.endpoint=='emp.manage_job' %}active{% endif %}" href="{{ url_for('emp.manage_job') }}">Manage Jobs</a>
+        <a class="links {% if request.endpoint=='emp.applicants' %}active{% endif %}" href="{{ url_for('emp.applicants') }}">Applicants</a>
+</div>
+      <div class="top-buttons">
+              
+              <a class="links" href="{{ url_for('emp.emp_profile') }}">
+                      <i class="fa-solid fa-user"></i>
+              </a>
+         
+        <form action="{{ url_for('auth.logout') }}" method="POST">
+          <button type="submit" class="btn btn-secondary">Logout</button>
+        </form>
+      </div>
+     
+      

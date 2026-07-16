@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/1b8a3d6871.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin_styles.css') }}">
+  <title>Admin Panel</title>
+</head>
+<body>
+  {% include "admin/_sidebar.html" %}
+  <main class="main-content">
+    {% with heading="Dashboard" %}{% include "admin/_header.html" %}{% endwith %}
+
+    <section class="dashboard-cards">
+      <div class="card">
+        <span>Total Users</span>
+        <span>{{ total_user }}</span>
+      </div>
+
+      <div class="card">
+        <span>Total Employers</span>
+        <span>{{ total_employers }}</span>
+      </div>
+
+      <div class="card">
+        <span>Total JobSeekers</span>
+        <span>{{ total_jobseeker }}</span>
+      </div>
+
+      <div class="card">
+        <span>Active Jobs</span>
+        <span>{{ active_jobs }}</span>
+      </div>
+
+      <div class="card">
+        <span>Total Applications</span>
+        <span>{{ total_application }}</span>
+      </div>
+
+      <div class="card">
+        <span>Expired Jobs</span>
+        <span>{{ expired_jobs }}</span>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="page-section-header">
+        <h2>Recently Joined Users</h2>
+        <a class="links" href="{{ url_for('admin.manage_users') }}" style="padding:8px 12px;">View all</a>
+      </div>
+      <div class="table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in recent_users %}
+            <tr>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role }}</td>
+              <td>
+                {% if u.is_active %}<span class="badge badge-green">Active</span>
+                {% else %}<span class="badge badge-red">Inactive</span>{% endif %}
+              </td>
+              <td>{{ u.created_at | format_date("%d %b %Y") }}</td>
+            </tr>
+            {% else %}
+            <tr class="empty-row"><td colspan="4">No users yet</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="page-section-header">
+        <h2>Recently Posted Jobs</h2>
+        <a class="links" href="{{ url_for('admin.manage_jobs') }}" style="padding:8px 12px;">View all</a>
+      </div>
+      <div class="table-card">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Company</th>
+              <th>Status</th>
+              <th>Posted</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for j in recent_jobs %}
+            <tr>
+              <td>{{ j.title }}</td>
+              <td>{{ j.company }}</td>
+              <td>
+                {% if j.is_active %}<span class="badge badge-green">Active</span>
+                {% else %}<span class="badge badge-red">Expired</span>{% endif %}
+              </td>
+              <td>{{ j.created_at | format_date("%d %b %Y") }}</td>
+            </tr>
+            {% else %}
+            <tr class="empty-row"><td colspan="4">No jobs yet</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
