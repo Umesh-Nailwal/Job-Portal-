@@ -3,10 +3,12 @@
 A Flask-based job portal where employers can post jobs and job seekers can browse, bookmark, and apply. Includes an admin panel for managing users, employers, jobs, and applications.
 
 **Live demo:** https://job-portal-bu8x.onrender.com/
+
 **Repo:** https://github.com/Umesh-Nailwal/Job-Portal-
 
 ## Admin Credientials For demo
-**Email:**admin@example.com
+**Email**:admin@example.com
+
 **Password**:admin123
 
 ---
