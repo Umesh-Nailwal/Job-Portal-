@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, session 
 from create_admin import create_admin
+from seed_test_data import run as seed_jobs
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 from models.User import User
@@ -30,6 +31,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 with app.app_context():
     db.create_all()
     create_admin()
+    seed_jobs(app)
 #Register the blueprints 
 app.register_blueprint(auth_bp)
 app.register_blueprint(user_bp)
