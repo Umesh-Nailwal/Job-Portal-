@@ -53,4 +53,8 @@ def format_date(value, format="%d %b"):
 
 #start the app
 if __name__=="__main__":
+<<<<<<< HEAD
     app.run()
+=======
+    app.run()
+>>>>>>> 079685def281ecfb5bbb5417672223a85469d151
