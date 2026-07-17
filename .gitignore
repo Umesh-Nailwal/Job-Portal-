@@ -1,4 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
 .venv/
+
+# Environment variables
+.env
+
+# Termux
+.cache/
+.config/
+.ssh/
+.gitconfig
+.lesshst
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log.venv/
 __pycache__/
 *.pyc
 instance/
@@ -6,3 +29,4 @@ instance/
 .vscode/
 .idea/
 *.db
+
