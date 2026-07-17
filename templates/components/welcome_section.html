@@ -10,7 +10,7 @@
       
       {% if role!= "Employer" %}
         <form  class="search-bar" method="Get" action="{{ url_for('job.jobs') }}">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          
           <div class="search-bar-input">
           <input name="q" type="text" class="search1" placeholder="Enter job title">
           <input name="location" type="text" class="search2" placeholder="Location">

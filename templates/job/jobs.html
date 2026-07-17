@@ -13,7 +13,6 @@
   <aside class="filters">
     <h2 >Filters</h2>
     <form action="{{ url_for('job.jobs') }}" method="GET">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <input type="hidden" name="q" value="{{ filters.q }}">
       <div class="filter-form-group">
       <label>Job Location</label>

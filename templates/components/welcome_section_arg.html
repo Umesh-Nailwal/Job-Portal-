@@ -10,7 +10,7 @@
       
    
         <form  class="search-bar" method="Get" action="{{ url_for('emp.manage_job') }}">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        
           <div class="search-bar-input">
           <input name="q" value="{{ filters.q }}" type="text" class="search1" placeholder="Enter job title">
           <input name="location" value="{{ filters.loaction }}" type="text" class="search2" placeholder="Location">

@@ -19,7 +19,7 @@
       <div class="page-section-header">
         <h2>All Users ({{ users|length }})</h2>
         <form class="filter-bar" action="{{ url_for('admin.manage_users') }}" method="GET">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+         
           <input type="text" name="q" value="{{ filters.q }}" placeholder="Search by email">
           <select name="role">
             <option value="" {% if not filters.role %}selected{% endif %}>All roles</option>

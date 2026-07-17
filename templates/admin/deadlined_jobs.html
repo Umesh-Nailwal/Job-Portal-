@@ -19,7 +19,7 @@
       <div class="page-section-header">
         <h2>All Jobs ({{ jobs|length }}){% if filters.company %} — {{ filters.company }}{% endif %}</h2>
         <form class="filter-bar" action="{{ url_for('admin.manage_deadline_jobs') }}" method="GET">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        
           <input type="text" name="q" value="{{ filters.q }}" placeholder="Search by title">
           <select name="status">
             <option value="" {% if not filters.status %}selected{% endif %}>All statuses</option>

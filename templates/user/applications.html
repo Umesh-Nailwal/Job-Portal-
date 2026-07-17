@@ -19,7 +19,7 @@
   <aside class="filters">
     <h2 >Filters</h2>
     <form action="{{ url_for('user.applications') }}" method="GET">
-      <input type="hidden" name="q" value="{{ filters.q }}">
+
       <div class="filter-form-group">
       <label>Job Location</label>
       <input class="search2" type="text" name="location" value="{{ filters.location }}" placeholder="e.g. Noida">
