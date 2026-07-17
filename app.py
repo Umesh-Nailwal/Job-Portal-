@@ -53,4 +53,4 @@ def format_date(value, format="%d %b"):
 
 #start the app
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run()
