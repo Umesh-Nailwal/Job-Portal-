@@ -31,7 +31,7 @@ def signup():
         db.session.commit()
         session.permanent=True
         session["user_id"]=new_user.id
-        session["role"]=role
+        session["role"]=new_user.role
         flash("Signup successfully")
         if role=='Employer':
             return redirect(url_for("emp.create_emp_profile"))
@@ -66,7 +66,6 @@ def login():
         session.permanent=True
         session["user_id"]=existing_user.id
         session["role"]=existing_user.role
-        print(f"user data  , email= { existing_user.email} , user_id={ session['user_id']} , role={existing_user.role}")
         
         if session.get("role")=="admin":
             return redirect(url_for("admin.admin_home"))
@@ -115,7 +114,7 @@ def employer_required(func):
              return redirect(url_for("auth.login"))
 
         if session["role"] != "Employer":
-            flash("Acced denied! Employer only routes")
+            flash("Access denied! Employer only routes")
             abort(403)
 
         return func(*args, **kwargs)
@@ -130,7 +129,7 @@ def admin_required(f):
              return redirect(url_for("auth.login"))
 
         if session.get("role") != "admin":
-            flash("Acced denied for this route")
+            flash("Access denied for this route")
             abort(403)
 
         return f(*args, **kwargs)

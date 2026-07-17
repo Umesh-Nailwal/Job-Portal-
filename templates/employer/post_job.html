@@ -12,6 +12,7 @@
       
       <form class="form-card" action="{{ url_for('emp.post_job') }}" method="POST" >
         <h2>Post A Job</h2>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input hidden name="employer_id" value="{{ profile.id }}">
         <div class="form-group">
           <label>Job Title</label>
@@ -31,11 +32,6 @@
         </div>
        </div>
         
-        <!-- <div class="form-group">
-          <label>Skills</label>
-          <input type="text" name="skills" placeholder="Skills" value="Flask,Python,Backend,Git,Docker" required>
-       </div> -->
-       
         <div class="form-group">
           <label>Job Mode</label>
           <select name="Job_mode">

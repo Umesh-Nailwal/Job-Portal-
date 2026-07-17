@@ -13,7 +13,7 @@
 <p>Complete your company profile before posting jobs.</p>
         <div class="">
 <form action="{{ url_for('emp.edit_emp_profile') }}" class="form-card-post-job" method="POST" enctype="multipart/form-data">
-
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>Company Name</label><br>
     <input type="text" value="{{ profile.company_name }}"  name="company_name" placeholder="Company Name" readonly><br><br>
 

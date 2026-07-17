@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.cache/
+.config/
+.ssh/
+.gitconfig
+.lesshst
+.env
+*.pyc
+instance/.venv/
+__pycache__/
+*.pyc
+instance/
+.env
+.vscode/
+.idea/
+*.db

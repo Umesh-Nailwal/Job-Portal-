@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for, session 
+from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 from models.User import User
 from models.Job import Job
@@ -19,7 +20,7 @@ from datetime import datetime
 app=Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
-from datetime import timedelta
+csrf = CSRFProtect(app)
 
 # Set session timeout (e.g., 7 days)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
@@ -49,26 +50,6 @@ def format_date(value, format="%d %b"):
     if value is None:
         return ""
     return value.strftime(format)
-# context processor to provide user data in every route
-"""@app.context_processor
-def inject_profile():
-    profile = None
-
-    if "user_id" in session:
-        if session.get("role") == "Employer":
-            profile = EmployerProfile.query.filter_by(
-                user_id=session["user_id"]
-            ).first()
-
-        elif session.get("role") == "Job_Seeker":
-            profile = JobSeekerProfile.query.filter_by(
-                user_id=session["user_id"]
-            ).first()
-
-    return {
-        "profile": profile,
-        "role": session.get("role")
-    }"""
 
 #start the app
 if __name__=="__main__":

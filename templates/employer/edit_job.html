@@ -12,6 +12,7 @@
       
       <form class="form-card-post-job" action="{{ url_for('emp.edit_job', job_id=job_details.id) }}" method="POST" >
         <h2>Edit A Job</h2>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="form-group">
           <label>Job Title</label>
           <input value="{{ job_details.title }}" type="text" name="Job_title" placeholder="Title" required>

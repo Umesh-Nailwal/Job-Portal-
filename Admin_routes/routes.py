@@ -195,7 +195,7 @@ def toggle_job_active(job_id):
     job.is_active = not job.is_active
     db.session.commit()
     flash(f"Job {'activate' if job.is_approved else 'deactivate'}")
-    return redirect(url_for("admin.deadline_jobs"))
+    return redirect(url_for("admin.manage_deadline_jobs"))
 
 
 @admin_bp.route("/deadline_jobs/<int:job_id>/delete",methods=["POST"])
@@ -207,6 +207,6 @@ def delete_deadline_job(job_id):
     db.session.delete(job)
     db.session.commit()
     flash("Job deleted")
-    return redirect(url_for("admin.deadlined_jobs"))
+    return redirect(url_for("admin.manage_deadline_jobs"))
     
     

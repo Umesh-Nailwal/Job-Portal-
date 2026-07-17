@@ -3,20 +3,19 @@ from extensions import db
 from models.User import User
 from models.Job import Job
 from models.JobSeekerProfile import JobSeekerProfile
-from Auth.routes import login_required, jobseeker_required
+from Auth.routes import jobseeker_required
 from models.Application import Application 
 user_bp=Blueprint("user",__name__)
     
 @user_bp.route("/bookmark",methods=["GET","POST"])
-@login_required
+@jobseeker_required
 def bookmark():
      return render_template("user/bookmark.html")
 
 @user_bp.route("/applications", methods=["GET"])
 @jobseeker_required
-@login_required
 def applications():
-    applications =Application.query.filter_by(user_id=session.get("user_id"))
+    applications =Application.query.join(Job).filter(Application.user_id==session.get("user_id"))
     
     keyword = request.args.get("q", "").strip()
     if keyword:
@@ -44,7 +43,6 @@ def applications():
     return render_template("user/applications.html", applications=applications, filters={"q": keyword, "location": location, "job_mode": job_mode, "min_salary": min_salary},user=user,)
 
 @user_bp.route("/user_profile",methods=["GET","POST"])
-@login_required
 @jobseeker_required
 def user_profile():
     user_id=session.get("user_id")
@@ -55,7 +53,6 @@ def user_profile():
     return render_template("user/user_profile.html",profile=profile)
     
 @user_bp.route("/create_user_profile",methods=["GET","POST"])
-@login_required
 @jobseeker_required
 def create_user_profile():
     user_id=session.get("user_id")
@@ -85,7 +82,6 @@ def create_user_profile():
     return render_template("user/create_user_profile.html")
 
 @user_bp.route("/edit_user_profile",methods=["GET","POST"])
-@login_required
 @jobseeker_required
 def edit_user_profile():
     user_id=session.get("user_id")

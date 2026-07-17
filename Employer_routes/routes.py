@@ -4,9 +4,6 @@ from extensions import db
 from models.User import User
 from models.Job import Job
 from models.Application import Application 
-from werkzeug.utils import secure_filename
-import os
-import uuid
 from models.EmployerProfile import EmployerProfile
 from Auth.routes import login_required, employer_required
 emp_bp=Blueprint("emp",__name__)
@@ -31,14 +28,23 @@ def post_job():
         max_salary=request.form.get("max_salary")
         job_mode=request.form.get("Job_mode")
         vacancies =request.form.get("vacancies")
-        deadline= datetime.strptime(
-            request.form.get("deadline"), "%Y-%m-%d"
-        ).date()
         description =request.form.get("description")
         company = profile.company_name
-        if deadline<date.today():
-            flash("Invalid deadline deadline set for today. No past dates allowed")
-            deadline=date.today()
+        
+        deadline_raw = request.form.get("deadline")
+        if deadline_raw:
+            try:
+                deadline = datetime.strptime(deadline_raw, "%Y-%m-%d").date()
+                if deadline < date.today():
+                    flash("Invalid deadline. No past dates allowed. Defaulting to today.")
+                    deadline = date.today()
+            except ValueError:
+                flash("Invalid date format. Please use YYYY-MM-DD.")
+                return render_template("employer/post_job.html", profile=profile)
+            else:
+                flash("Deadline is required.")
+                return render_template("employer/post_job.html", profile=profile)
+    
 
         new_job=Job(
         employer_id=profile.id,
@@ -153,7 +159,7 @@ def manage_job():
         query=query.filter(Job.location.ilike(f"%{location}%"))
     if job_mode:
         query=query.filter(Job.employment_type.ilike(f"%{job_mode}%"))
-    if min_salary:
+    if min_salary is not None:
         query=query.filter(Job.salary_min>=min_salary)
         
     jobs = query.order_by(Job.created_at.desc()).all()
@@ -246,7 +252,7 @@ def employer_delete_job(job_id):
     flash("Job successfully deleted")
     return redirect(url_for("emp.manage_job"))
 
-@emp_bp.route("/archive_jobs:/<int:job_id>", methods=["POST"])
+@emp_bp.route("/archive_jobs/<int:job_id>", methods=["POST"])
 @employer_required
 def toggle_archive(job_id):
     job=db.session.get(Job,job_id)
@@ -262,12 +268,12 @@ def toggle_archive(job_id):
     job.is_archived=not job.is_archived
     db.session.commit()
     if job.is_archived:
-        flash("Job successfully archive")
+        flash("Job successfully archived")
     else: 
-        flash("Job successfully Unarchive ")
+        flash("Job successfully Unarchived")
     return redirect(url_for("emp.manage_job"))
 
-@emp_bp.route("/toggle_hirinf:/<int:job_id>", methods=["POST"])
+@emp_bp.route("/toggle_hiring/<int:job_id>", methods=["POST"])
 @employer_required
 def toggle_hiring(job_id):
     job=db.session.get(Job,job_id)
@@ -283,7 +289,7 @@ def toggle_hiring(job_id):
     job.is_filled=not job.is_filled
     db.session.commit()
     if job.is_filled:
-        flash("Stoped Hiring")
+        flash("Stopped Hiring")
     else:
         flash("Active hiring")
     return redirect(url_for("emp.manage_job"))
@@ -344,7 +350,7 @@ def update_application_status(app_id):
         flash("Application status updated")
 
     return redirect(url_for(
-        "emp.applications",
+        "emp.applicants",
         q=request.form.get("q", ""),
         status=request.form.get("status_filter", ""),
         job_id=request.form.get("job_id_filter", ""),

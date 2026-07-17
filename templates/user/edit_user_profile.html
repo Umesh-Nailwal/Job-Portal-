@@ -13,7 +13,7 @@
 <p>Complete your profile before appling for jobs.</p>
         <div class="">
 <form action="" class="form-card-post-job" method="POST" enctype="multipart/form-data">
-
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>Full Name</label><br>
     <input type="text" value="{{ profile.full_name }}"  name="full_name" placeholder="Full Name" readonly><br><br>
 
