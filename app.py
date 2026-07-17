@@ -54,7 +54,7 @@ def format_date(value, format="%d %b"):
 with app.app_context():
     db.create_all()
     create_admin()
-    seed_jobs(app)
+    seed_jobs()
 
 #start the app
 if __name__=="__main__":
