@@ -1,17 +1,18 @@
-from app import app
+
 from models.User import  User
 from extensions import db
 from werkzeug.security import generate_password_hash
 
-with app.app_context():
+def create_admin():
+    email="admin@example.com"
     admin = User(
         
-        email="admin@example.com",
-        password=generate_password_hash("admin123"),
-        role="admin"
-    )
+        email=email,
+     password=generate_password_hash("admin123"),
+        role="admin" )
+    if not User.query.filter_by(email=email).first():
 
-    db.session.add(admin)
-    db.session.commit()
+        db.session.add(admin)
+        db.session.commit()
 
-    print("Admin created successfully!")
+   
