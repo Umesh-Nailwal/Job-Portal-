@@ -16,6 +16,7 @@
     <aside class="filters">
       <h2>Filters</h2>
       <form action="{{ url_for('emp.applicants') }}" method="GET">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="filter-form-group">
           <label>Job Title</label>
           <input class="search2" type="text" name="q" value="{{ filters.q }}" placeholder="e.g. Frontend Developer">
@@ -76,6 +77,7 @@
 
 
         <form class="status-form" action="{{ url_for('emp.update_application_status', app_id=a.id) }}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <input type="hidden" name="q" value="{{ filters.q }}">
           <input type="hidden" name="status_filter" value="{{ filters.status }}">
           <input type="hidden" name="job_id_filter" value="{{ filters.job_id }}">

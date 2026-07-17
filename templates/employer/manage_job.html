@@ -12,6 +12,7 @@
     <aside class="filters">
     <h2 >Filters</h2>
     <form action="{{ url_for('emp.manage_job') }}" method="GET">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="filter-form-group">
       <label>Job Location</label>
       <input class="search2" type="text" name="location" value="{{ filters.location }}" placeholder="e.g. Noida">

@@ -32,23 +32,28 @@
           <a href="{{ url_for('emp.edit_job', job_id=job.id) }}" class="menu links">Edit</a>
           
           <form action="{{ url_for('emp.employer_delete_job', job_id=job.id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button type="submit" class="menu links">Delete</button>
           </form>
           {% if job.is_archived %}
           <form action="{{ url_for('emp.toggle_archive', job_id=job.id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button  type="submit" class="menu links">Unarchive</button>
           </form>
           {% else %}
           <form action="{{ url_for('emp.toggle_archive',job_id=job.id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button  type="submit" class="menu links">Archive</button>
           </form>
           {% endif %}
           {% if job.is_filled %}
           <form action="{{ url_for('emp.toggle_hiring',job_id=job.id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button  type="submit" class="menu links">Active hiring</button>
           </form>
           {% else %}
           <form action="{{ url_for('emp.toggle_hiring', job_id=job.id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button  type="submit" class="menu links">Stop hiring</button>
           </form>
           {% endif %}

@@ -19,6 +19,7 @@
       <div class="page-section-header">
         <h2>All Users ({{ users|length }})</h2>
         <form class="filter-bar" action="{{ url_for('admin.manage_users') }}" method="GET">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <input type="text" name="q" value="{{ filters.q }}" placeholder="Search by email">
           <select name="role">
             <option value="" {% if not filters.role %}selected{% endif %}>All roles</option>
@@ -56,6 +57,7 @@
               <td class="row-actions">
                 {% if u.role != "admin" %}
                 <form action="{{ url_for('admin.toggle_user_active', user_id=u.id) }}" method="POST">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                   {% if u.is_active %}
                   <button type="submit" class="btn btn-sm btn-danger">Deactivate</button>
                   {% else %}
@@ -63,6 +65,7 @@
                   {% endif %}
                 </form>
                 <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" onsubmit="return confirm('Delete this user? This also removes their profile, jobs, applications and bookmarks.');">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                   <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                 </form>
                 {% else %}

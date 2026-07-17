@@ -19,6 +19,7 @@
       <div class="page-section-header">
         <h2>All Employers ({{ employers|length }})</h2>
         <form class="filter-bar" action="{{ url_for('admin.manage_employers') }}" method="GET">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <input type="text" name="q" value="{{ filters.q }}" placeholder="Search by company name">
           <button type="submit" class="btn btn-primary-admin">Search</button>
         </form>

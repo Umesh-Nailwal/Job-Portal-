@@ -34,6 +34,7 @@
           
           {% else %}
           <form class="" action="{{ url_for('job.apply_job') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input name="job_id"  value="{{ job.id }}" hidden>
             <button type="submit" class="btn apply">Apply For Job</button>
           </form>  

@@ -6,6 +6,7 @@
       Admin
     </div>
     <form action="{{ url_for('auth.logout') }}" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <button type="submit" class="btn">Logout</button>
     </form>
   </div>

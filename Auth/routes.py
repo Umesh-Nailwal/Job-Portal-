@@ -1,4 +1,5 @@
 from flask import Flask , render_template, redirect , url_for , Blueprint, request, session , flash, abort
+from validators import validate_email, validate_password
 from models.User import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
@@ -18,7 +19,16 @@ def signup():
             flash("This role is not allowed")
             return redirect(url_for("auth.signup"))
         #Check if the username and email previously exists in the database 
-        
+        is_valid, error = validate_email(email)
+        if not is_valid:
+            flash(error)
+            return render_template("signup.html")
+
+        is_valid, error = validate_password(password)
+        if not is_valid:
+            flash(error)
+            return render_template("signup.html")
+            
         existing_email=User.query.filter_by(email=email).first()
         if existing_email:
             flash("This email is already exist")
@@ -67,9 +77,10 @@ def login():
         session["user_id"]=existing_user.id
         session["role"]=existing_user.role
         
-        if session.get("role")=="admin":
+        user_role = str(session.get("role", "")).strip().lower()
+        if user_role=="admin":
             return redirect(url_for("admin.admin_home"))
-        elif session.get("role")== "Employer" or session.get("role")=="Job_Seeker":
+        elif user_role in ["employer", "job_seeker"]:
             return redirect(url_for("home"))
             
     return render_template("login.html")
@@ -124,11 +135,12 @@ def employer_required(func):
 def admin_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
+        user_role = str(session.get("role", "")).strip().lower()
         if "user_id" not in session:
              flash("Login required")
              return redirect(url_for("auth.login"))
 
-        if session.get("role") != "admin":
+        if user_role != "admin":
             flash("Access denied for this route")
             abort(403)
 
