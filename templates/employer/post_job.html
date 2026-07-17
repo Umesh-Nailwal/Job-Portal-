@@ -10,7 +10,7 @@
   <main>
     <section class="section">
       
-      <form class="form-card-post-job" action="{{ url_for('emp.post_job') }}" method="POST" >
+      <form class="form-card" action="{{ url_for('emp.post_job') }}" method="POST" >
         <h2>Post A Job</h2>
         <input hidden name="employer_id" value="{{ profile.id }}">
         <div class="form-group">
