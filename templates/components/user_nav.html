@@ -10,8 +10,9 @@
             <i class="fa-solid fa-user"></i>
                  
          </a>
-              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              
         <form action="{{ url_for('auth.logout') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button type="submit" class="btn btn-secondary">Logout</button>
         </form>
       </div>

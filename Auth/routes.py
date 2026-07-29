@@ -110,7 +110,7 @@ def jobseeker_required(func):
              return redirect(url_for("auth.login"))
         if session["role"] != "Job_Seeker":
             flash("Access denied! Routes only for Job Seekers")
-            abort(403)
+            
 
         return func(*args, **kwargs)
     return wrapper
@@ -126,8 +126,7 @@ def employer_required(func):
 
         if session["role"] != "Employer":
             flash("Access denied! Employer only routes")
-            abort(403)
-
+            
         return func(*args, **kwargs)
 
     return wrapper
@@ -142,7 +141,7 @@ def admin_required(f):
 
         if user_role != "admin":
             flash("Access denied for this route")
-            abort(403)
+            
 
         return f(*args, **kwargs)
 

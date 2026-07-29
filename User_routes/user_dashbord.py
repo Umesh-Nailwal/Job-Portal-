@@ -5,6 +5,7 @@ from models.Job import Job
 from models.JobSeekerProfile import JobSeekerProfile
 from Auth.routes import jobseeker_required
 from models.Application import Application 
+from services.jobs_services import application_service
 user_bp=Blueprint("user",__name__)
     
 @user_bp.route("/bookmark",methods=["GET","POST"])
@@ -15,32 +16,8 @@ def bookmark():
 @user_bp.route("/applications", methods=["GET"])
 @jobseeker_required
 def applications():
-    applications =Application.query.join(Job).filter(Application.user_id==session.get("user_id"))
-    
-    keyword = request.args.get("q", "").strip()
-    if keyword:
-        applications = applications.filter(Job.title.ilike(f"%{keyword}%"))
-
-    # location - typed or picked from a dropdown
-    location = request.args.get("location", "").strip()
-    if location:
-        applications = applications.filter(Job.location.ilike(f"%{location}%"))
-
-    # employment type - exact match against one of the enum-like values
-    job_mode = request.args.get("job_mode", "").strip()
-    if job_mode:
-        applications = applications.filter(Job.employment_type == job_mode)
-
-    # minimum salary - only show jobs whose max salary clears this bar
-    min_salary = request.args.get("min_salary", "").strip()
-    if min_salary.isdigit():
-        applications = applications.filter(Job.salary_max >= int(min_salary))
-        
-    applications=applications.all()
-
-    user=db.session.get(User,session.get("user_id"))
-    
-    return render_template("user/applications.html", applications=applications, filters={"q": keyword, "location": location, "job_mode": job_mode, "min_salary": min_salary},user=user,)
+    applications, filters ,user= application_service()
+    return render_template("user/applications.html", applications=applications, filters=filters ,user=user)
 
 @user_bp.route("/user_profile",methods=["GET","POST"])
 @jobseeker_required
