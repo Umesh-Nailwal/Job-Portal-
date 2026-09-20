@@ -3,7 +3,6 @@ from create_admin import create_admin
 from seed_test_data import run as seed_jobs
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
-from flask_compress import Compress
 from models.User import User
 from models.Job import Job
 from models.EmployerProfile import EmployerProfile as EProfile
@@ -25,10 +24,8 @@ app=Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 csrf = CSRFProtect(app)
-Compress(app)
 # Set session timeout (e.g., 7 days)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
-
 
 #Register the blueprints 
 app.register_blueprint(auth_bp)
